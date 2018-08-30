@@ -1,4 +1,4 @@
-# cursomc
+# API in SPRING BOOT
 API in Spring Boot, Hibernate, REST, Ionic, JWT, S3, MySQL, MongoDB
 
 -------------------------------------------------------------------------------------
@@ -8,17 +8,20 @@ API in Spring Boot, Hibernate, REST, Ionic, JWT, S3, MySQL, MongoDB
 
 ## Categorias
 
-**GET:** /categorias/{id}
+**GET:** */categorias/{id}*
 
-**POST:**  /categorias/{id} BODY: {"nome": "category-name"}
+**POST:**  */categorias/{id}* BODY: {"nome": "category-name"}
 
-**PUT:**  /categorias/{id} BODY: {"nome": "category-name"}
+**PUT:**  */categorias/{id}* BODY: {"nome": "category-name"}
 
-**DELETE:**  /categorias/{id}
+**DELETE:**  */categorias/{id}*
 
 
 ## Clientes
-**GET:** /clientes/{id}
+
+**GET:** */clientes/{id}*
+
 
 ## Pedidos
-**GET:** /pedidos/{id}
+
+**GET:** */pedidos/{id}*
