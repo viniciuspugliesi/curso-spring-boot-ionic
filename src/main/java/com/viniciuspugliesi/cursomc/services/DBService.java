@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.viniciuspugliesi.cursomc.domain.Categoria;
@@ -60,6 +61,9 @@ public class DBService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 
+	@Autowired
+	private BCryptPasswordEncoder bCrypt;
+	
 	public void instantiateTestDatabase() throws ParseException {
 
 		Categoria cat1 = new Categoria(null, "Informática");
@@ -122,7 +126,7 @@ public class DBService {
 		
 		
 		
-		Cliente cli1 = new Cliente(null, "Maria Silva", "viniciuspugliesi20@gmail.com", "8172346182364", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "viniciuspugliesi20@gmail.com", "8172346182364", TipoCliente.PESSOAFISICA, bCrypt.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("91278349127", "91278349127"));
 		
 		Endereco e1 = new Endereco(null, "Rua Flores", "234", "Apto 23", "Jardim", "1234123", cli1, c1);
