@@ -3,9 +3,13 @@ package com.viniciuspugliesi.cursomc.services;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.viniciuspugliesi.cursomc.domain.Cliente;
 import com.viniciuspugliesi.cursomc.domain.ItemPedido;
 import com.viniciuspugliesi.cursomc.domain.PagamentoComBoleto;
 import com.viniciuspugliesi.cursomc.domain.Pedido;
@@ -13,6 +17,8 @@ import com.viniciuspugliesi.cursomc.domain.enums.EstadoPagamento;
 import com.viniciuspugliesi.cursomc.repositories.ItemPedidoRepository;
 import com.viniciuspugliesi.cursomc.repositories.PagamentoRepository;
 import com.viniciuspugliesi.cursomc.repositories.PedidoRepository;
+import com.viniciuspugliesi.cursomc.security.UserSecurity;
+import com.viniciuspugliesi.cursomc.services.exceptions.AuthorizationException;
 import com.viniciuspugliesi.cursomc.services.exceptions.ObjectNotFountException;
 
 @Service
@@ -76,5 +82,21 @@ public class PedidoService {
 		emailService.sendOrderConfirmationHtmlEmail(pedido);
 		
 		return pedido;
+	}
+
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSecurity user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		if (page != 0) {
+			page -= 1;
+		}
+		
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente = clienteService.find(user.getId());
+		
+		return pedidoRepository.findByCliente(cliente, pageRequest);
 	}
 }
